@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav class="navbar">
+    <h1>Favorite Recipes</h1>
+      <ul class="nav-links">
+        <a href="index.html">Back to Home</a>
+      </ul>
+    </nav>
+
+  <div id="favoritesContainer"></div>
+
+  <script>
+    const container = document.getElementById("favoritesContainer");
+    const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+    if (favorites.length === 0) {
+      container.innerHTML = `<p class="favoriteFront">No favorites yet.</p>`;
+    } else {
+      container.innerHTML = favorites.map((recipe, index) => `
+        <div class="card">
+          <h3>${recipe.title}</h3>
+          <img src="${recipe.image}" alt="${recipe.title}" style="max-width: 200px;">
+          <p><strong>Ingredients:</strong> ${recipe.ingredients}</p>
+          <div><strong>Instructions:</strong> ${recipe.instructions}</div>
+          <button class="removeBtn" onclick="removeFavorite(${index})">Remove</button>
+        </div>
+      `).join("");
+    }
+
+    function removeFavorite(index) {
+      favorites.splice(index, 1);
+      localStorage.setItem("favorites", JSON.stringify(favorites));
+      location.reload();
+    }
+  </script>
+</body>
+</html>
