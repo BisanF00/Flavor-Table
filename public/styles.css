@@ -1,0 +1,163 @@
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-image: url("https://www.tastingtable.com/img/gallery/27-tips-you-need-when-cooking-with-vegetables/l-intro-1671640753.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center top;
+  background-attachment: scroll;
+  min-height: 100vh;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #8E785E;
+  color: white;
+  width: 100%;
+}
+
+h1 {
+  margin-left: 120px;
+  font-weight: bold;
+  color: white;
+  font-size: 25px;
+}
+
+.navButtos{
+  list-style: none;
+  display: flex;
+  gap: 15px;
+  margin-left: 40%;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+#ingredientsInput {
+  padding: 10px;
+  margin: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 150px;
+}
+
+#searchBtn , #recipeBtn {
+  background: #D7AE89;
+  color: #756228;
+  border: 1px solid #ccc;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: bold;
+}
+
+#searchBtn:hover {
+  background-color: #756228;
+  color: #D7AE89;
+  border: none;
+}
+
+#recipeBtn:hover {
+  background-color: #756228;
+  color: #D7AE89;
+  border: none;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 15px;
+  margin-right: 50px;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+.nav-links a:hover {
+  color: #D7AE89;
+  background-color: #756228;
+}
+
+.frontText {
+  color: white;
+  background-color: #463914;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+  margin-top: 20px;
+  width: 60%;
+}
+
+#results , #recipesContainer , #favoritesContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  align-content: center;
+  padding: 20px;
+  margin-bottom: 100px;
+  margin-top: 50px;
+  width: 60%;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #913014;
+  border-radius: 15px;
+  transition: transform 0.3s, box-shadow 0.3s;
+  background-color: #463914;
+  color: white;
+}
+
+.card:hover {
+  scale: 1.04;
+  transition: 0.2s ease;
+}
+
+.saveBtn , .removeBtn{
+  background: #D7AE89;
+  color: #756228;
+  border: 1px solid #ccc;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  justify-self: center;
+  transition: background-color 0.3s ease;
+  font-weight: bold;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.saveBtn:hover{
+  background-color: #756228;
+  color: #D7AE89;
+  border: none;
+}
+
+.removeBtn:hover{
+  background-color: #756228;
+  color: #D7AE89;
+  border: none;
+}
+
+.favoriteFront{
+  color: white;
+}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav class="navbar">
+    <h1>Recipes</h1>
+    <div class="navButtos">
+      <input type="text" id="ingredientsInput" placeholder="e.g. apple, banana" />
+      <button id="searchBtn">Search</button>
+      <button id="recipeBtn">Random Recipe</button>
+    </div>
+      <ul class="nav-links">
+        <a href="favorites.html">View Favorites</a>
+      </ul>
+    </nav>
+
+  <center>
+    <div class="frontText">
+   <h1 class="frontText">Find. Cook. Enjoy</h1>
+   <p>From everyday ingredients to flavorful dishes — your next meal starts here<br>
+      Turn your leftover ingredients into tasty meals in minutes! Search by what you have, explore random recipes, and save your favorites for later.
+  </p>
+    </div>
+  </center>
+
+  <div id="results" style="display: none;"></div>
+  <div id="recipesContainer"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
