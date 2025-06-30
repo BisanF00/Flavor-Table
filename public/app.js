@@ -2,23 +2,78 @@ const container = document.getElementById("recipesContainer");
 const recipeButton =document.getElementById ("recipeBtn");
 const searchBtn = document.getElementById("searchBtn");
 const resultsContainer = document.getElementById("results");
+const favoritesContainer = document.getElementById("favoritesContainer");
+
+function loadFavorites () {
+axios.get("http://localhost:5321/api/recipes/all")
+    .then(response => {
+      const favorites = response.data;
+
+      if (favorites.length === 0) {
+      favoritesContainer.innerHTML = `<p class="favoriteFront">No favorites yet.</p>`;
+    } else {
+      favoritesContainer.innerHTML = favorites.map((recipe) => `
+        <div class="card">
+          <h3>${recipe.title}</h3>
+          <img src="${recipe.image}" alt="${recipe.title}" style="max-width: 200px;">
+          <p><strong>Ingredients:</strong> ${Array.isArray(recipe.ingredients) ? recipe.ingredients.join(", ") : recipe.ingredients}</p>
+          <div><strong>Instructions:</strong> ${recipe.instructions}</div>
+          <div><strong>Ready In:</strong> ${recipe.readyin} Minutes</div>
+          <button class="ubdateBtn" onclick="ubdateFavorite(${recipe.id})">Ubdate</button>
+          <button class="removeBtn" onclick="removeFavorite(${recipe.id})">Remove</button>
+        </div>
+      `).join("");
+    }
+    }).catch(err => console.error("Error loading favorites", err));
+};
+console.log("favorites page loaded");
+
+document.addEventListener("DOMContentLoaded", () => {
+  if (window.location.pathname.includes("favorites.html")) {
+    loadFavorites();
+  }
+});
+
 
 function favoriteRecipes (recipe) {
-  let favorites = JSON.parse (localStorage.getItem("favorites")) || [];
+    let ingredients = [];
 
-  const exists = favorites.some (r => r.id === recipe.id);
-  if (exists) {
-    alert("Recipe already saved!");
-    return;
+  if (Array.isArray(recipe.ingredients)) {
+    ingredients = recipe.ingredients;
+  } else if (recipe.extendedIngredients) {
+    ingredients = recipe.extendedIngredients.map(i => i.original);
+  } else if (recipe.usedIngredients || recipe.missedIngredients) {
+    ingredients = [...(recipe.usedIngredients || []), ...(recipe.missedIngredients || [])].map(i => i.name || i);
   }
 
-  favorites.push (recipe);
-
-  localStorage.setItem("favorites" , 
-    JSON.stringify(favorites)
-  );
-  alert("Recipe saved to favorites!");
+  const simplified = {
+  title: recipe.title,
+  image: recipe.image,
+  instructions: recipe.instructions || "No instructions provided",
+  ingredients: JSON.stringify(ingredients),
+  readyin: recipe.readyInMinutes || 0,
 };
+ axios.post("http://localhost:5321/api/recipes/insert", simplified)
+    .then(() => {
+      alert("Recipe saved to favorites!");
+      loadFavorites ();
+    })
+    .catch(err => console.error("Error saving recipe", err));
+};
+
+  function ubdateFavorite(id) {
+    window.location.href = `editRecipe.html?id=${id}`;
+  };
+
+ function removeFavorite(id) {
+      axios.delete(`http://localhost:5321/api/recipes/${id}`)
+      .then (() => {
+        alert ("Recipe deleted");
+        loadFavorites ();
+      }).catch (error => {
+        console.error("Delete failed", error);
+      });
+    };
 
 async function fetchRecipes() {
   try {
@@ -40,22 +95,22 @@ async function fetchRecipes() {
       <img src="${recipe.image}" alt="${recipe.title}" style="max-width:300px; border-radius:10px; display:block; margin-bottom: 1rem;">
       <p><strong>Ingredients:</strong> ${ingredients}</p>
       <div><strong>Instructions:</strong> ${instructions}</div>
+      <div><strong>Ready In:</strong> ${recipe.readyInMinutes} Minutes</div>
       <div><button class="saveBtn">Save to Favorites</button></div>
     </div>
     `;
 
-    container.style.display = "block";
-    resultsContainer.style.display = "none";
+    container.classList.remove("hidden");          
+    resultsContainer.classList.add("hidden");
 
     document.querySelector(".saveBtn").addEventListener("click", () => {
     const simplified = {
-    id: recipe.id,
     title: recipe.title,
     image: recipe.image,
     ingredients: recipe.extendedIngredients
-      .map(i => i.original)
-      .join(", "),
+      .map(i => i.original),
     instructions: recipe.instructions || "No instructions provided.",
+    readyin: recipe.readyInMinutes || 0,
      };
     favoriteRecipes(simplified);
 });
@@ -94,12 +149,13 @@ async function searchRecipes() {
         <ul>${recipe.usedIngredients.map(ing => `<li>${ing.name || ing}</li>`).join("")}</ul>
         <div class="section-title">Missing Ingredients:</div>
         <ul>${recipe.missedIngredients.map(ing => `<li>${ing.name || ing}</li>`).join("")}</ul>
+        ${(recipe.readyInMinutes || recipe.readyin) ? `<div><strong>Ready In:</strong> ${recipe.readyInMinutes || recipe.readyin} Minutes</div>` : ""}
         <div><button class="saveBtn" data-index="${index}">Save to Favorites</button></div>
       </div>
     `).join("");
 
-    container.style.display = "none";
-    resultsContainer.style.display = "block";
+    container.classList.add("hidden");          
+    resultsContainer.classList.remove("hidden"); 
 
     document.querySelectorAll(".saveBtn").forEach((btn) => {
       btn.addEventListener("click", (e) => {
@@ -107,14 +163,13 @@ async function searchRecipes() {
         const recipe = data[index];
 
         const simplified = {
-          id: recipe.id,
           title: recipe.title,
           image: recipe.image,
           ingredients: recipe.usedIngredients
           .concat(recipe.missedIngredients)
-          .map(ing => ing.name || ing)
-          .join(", "),
+          .map(ing => ing.name || ing),
           instructions: "No instructions available from ingredient-based search.",
+          readyin: recipe.readyInMinutes || 0,
         };
 
         favoriteRecipes(simplified);
@@ -128,8 +183,13 @@ async function searchRecipes() {
   }
 }
 
-recipeButton.addEventListener("click", fetchRecipes);
-searchBtn.addEventListener("click", searchRecipes);
+if (recipeButton) {
+  recipeButton.addEventListener("click", fetchRecipes);
+}
+
+if (searchBtn) {
+  searchBtn.addEventListener("click", searchRecipes);
+}
 
 fetchRecipes();
 
