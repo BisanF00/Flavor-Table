@@ -35,7 +35,7 @@ router.get ("/recipes/search" , async (req , res) => {
     params: {
       apiKey: process.env.APIKey || "FAKE_KEY",
       ingredients: ingredients,
-      number: 5
+      number: 6
     }
   }
     );

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Update Recipe</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Roboto&display=swap" rel="stylesheet">
+</head>
+<body>
+  <nav class="navbar">
+    <h1>Update Recipe</h1>
+    <ul class="nav-links">
+      <a href="favorites.html">Back to Favorites</a>
+    </ul>
+  </nav>
+
+  <form id="ubdateForm" style="padding: 1rem;">
+    <label for="title">Title :</label>
+    <input type="text" id="title" required>
+
+    <label for="image">Image URL :</label>
+    <input type="text" id="image" placeholder="Enter image URL or leave as is">
+
+    <label for="instructions">Instructions :</label>
+    <textarea id="instructions" rows="4" required></textarea>
+
+    <label for="ingredients">Ingredients :</label>
+    <textarea type="text" id="ingredients" required></textarea>
+
+    <label for="readyin">Ready In (minutes):</label>
+    <input type="number" id="readyin" required>
+
+    <button type="submit" class="update">Save Changes</button>
+  </form>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("ubdateForm");
+    const params = new URLSearchParams(window.location.search);
+    const recipeId = params.get("id");
+
+    if (!recipeId) {
+      alert("No recipe selected for update.");
+      return;
+    }
+
+    axios.get(`http://localhost:5321/api/recipes/${recipeId}`)
+      .then(response => {
+        const recipe = response.data;
+        document.getElementById("title").value = recipe.title;
+        document.getElementById("image").value = recipe.image || "";
+        document.getElementById("instructions").value = recipe.instructions;
+        document.getElementById("ingredients").value = Array.isArray(recipe.ingredients)
+          ? recipe.ingredients.join(", ")
+          : JSON.parse(recipe.ingredients).join(", ");
+        document.getElementById("readyin").value = recipe.readyin;
+      })
+      .catch(err => {
+        console.error("Error loading recipe:", err);
+        alert("Failed to load recipe.");
+      });
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const updatedRecipe = {
+        title: document.getElementById("title").value,
+        image: document.getElementById("image").value || null,
+        instructions: document.getElementById("instructions").value,
+        ingredients: JSON.stringify(
+        document.getElementById("ingredients").value.split(",").map(i => i.trim())),
+        readyin: parseInt(document.getElementById("readyin").value),
+      };
+
+      console.log("Sending updated recipe:", updatedRecipe);
+
+      axios.put(`http://localhost:5321/api/recipes/update/${recipeId}`, updatedRecipe)
+        .then(() => {
+          alert("Recipe updated successfully!");
+          window.location.href = "favorites.html";
+        })
+        .catch(err => {
+          console.error("Update failed:", err);
+          alert("Failed to update recipe.");
+        });
+    });
+  });
+</script>
+</body>
+</html>
