@@ -9,20 +9,23 @@
 </head>
 <body>
   <nav class="navbar">
-    <h1>Flavor Table</h1>
-    <div class="navButtos">
+    <h1 class="logo">Flavor Table</h1>
+    <div class="navButtons">
       <input type="text" id="ingredientsInput" placeholder="e.g. apple, banana" />
       <button id="searchBtn">Search</button>
       <button id="recipeBtn">Random Recipe</button>
     </div>
-      <ul class="nav-links">
+
+      <div class="nav-links">
         <a href="favorites.html">View Favorites</a>
-      </ul>
+        <a href="login.html" id="loginContainer">Login</a>
+        <a href="profile.html" id="profileContainer">Profile</a>
+      </div>
     </nav>
 
   <center>
     <div class="frontText">
-   <h1 class="frontText">Find. Cook. Enjoy</h1>
+   <h1>Find. Cook. Enjoy</h1>
    <p>From everyday ingredients to flavorful dishes — your next meal starts here<br>
       Turn your leftover ingredients into tasty meals in minutes! Search by what you have, explore random recipes, and save your favorites for later.
   </p>
@@ -34,5 +37,20 @@
 
   <script src="app.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  <script>
+    const loginContainer = document.getElementById("loginContainer");
+    const profileContainer = document.getElementById("profileContainer");
+
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      loginContainer.classList.add("hidden");
+      profileContainer.classList.remove("hidden");
+    } else {
+      loginContainer.classList.remove("hidden");
+      profileContainer.classList.add("hidden");
+    }
+  </script>
 </body>
 </html>

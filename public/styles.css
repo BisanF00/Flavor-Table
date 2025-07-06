@@ -15,10 +15,13 @@ body {
   color: white;
   padding: 1rem 2rem;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   font-family: 'Playfair Display', serif;
+  flex-wrap: wrap;
+  gap: 1rem;
+  position: relative;
 }
 
 h1 {
@@ -27,17 +30,20 @@ h1 {
   text-align: center;
 }
 
-.navbar h1 {
-  margin: 0;
-  font-size: 2rem;
+.logo {
+  margin-right: auto;
+  font-size: 1.8rem;
+  font-weight: bold;
 }
 
-.navButtos{
-  list-style: none;
-  margin-left: 40%;
+.navButtons{
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   font-size: 25px;
   font-weight: bold;
   display: flex;
+  align-items: center;
   gap: 0.5rem;
 }
 
@@ -57,22 +63,20 @@ h1 {
   cursor: pointer;
 }
 
-#searchBtn:hover {
+#searchBtn:hover, #recipeBtn:hover {
   background-color: #6d4c41;
 }
 
-#recipeBtn:hover {
-  background-color: #6d4c41;
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
 }
 
 .nav-links a {
   color: #fff;
   text-decoration: none;
   font-weight: bold;
-  list-style: none;
-  display: flex;
-  gap: 15px;
-  margin-right: 50px;
   font-size: 1.2rem;
   padding: 5px 10px;
   border-radius: 5px;
@@ -136,7 +140,7 @@ h1 {
 }
 
 .saveBtn , .removeBtn , .ubdateBtn{
-  margin-top: 0.8rem;
+  margin-top: 1rem;
   background-color: #8d6e63;
   color: white;
   border: none;
@@ -147,15 +151,7 @@ h1 {
   justify-content: space-between;
 }
 
-.saveBtn:hover{
-  background-color: #6d4c41;
-}
-
-.removeBtn:hover{
-  background-color: #6d4c41;
-}
-
-.ubdateBtn:hover{
+.saveBtn:hover, .removeBtn:hover, .ubdateBtn:hover, .logoutBtn:hover, .loginBtn:hover{
   background-color: #6d4c41;
 }
 
@@ -222,4 +218,56 @@ input:focus, textarea:focus {
 
 .hidden {
   display: none !important;
+}
+
+.profile {
+  background-color: #ffffff80;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+  padding: 1rem;
+  transition: transform 0.2s ease;
+  width: 50%;
+  margin-top: 10%;
+  text-align: center;
+}
+
+.loginBtn {
+  margin-top: 1rem;
+  background-color: #8d6e63;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-self: center;
+}
+
+.logoutBtn {
+  margin-top: 1rem;
+  background-color: #8d6e63;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#loginForm {
+  background-color: #ffffff80;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  width: 50%;
+  max-width: 300px;
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2rem;
+}
+
+.formUp, .formdown {
+  text-align: center;
 }

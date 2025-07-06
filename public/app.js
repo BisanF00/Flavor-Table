@@ -4,7 +4,7 @@ const searchBtn = document.getElementById("searchBtn");
 const resultsContainer = document.getElementById("results");
 const favoritesContainer = document.getElementById("favoritesContainer");
 
-function loadFavorites () {
+function loadFavorites (token) {
 axios.get("http://localhost:5321/api/recipes/all")
     .then(response => {
       const favorites = response.data;
