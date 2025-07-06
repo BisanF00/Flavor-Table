@@ -47,7 +47,7 @@
       return;
     }
 
-    axios.get(`http://localhost:5321/api/recipes/${recipeId}`)
+    axios.get(`https://flavor-table-ejr2.onrender.com/api/recipes/${recipeId}`)
       .then(response => {
         const recipe = response.data;
         document.getElementById("title").value = recipe.title;
@@ -77,7 +77,7 @@
 
       console.log("Sending updated recipe:", updatedRecipe);
 
-      axios.put(`http://localhost:5321/api/recipes/update/${recipeId}`, updatedRecipe)
+      axios.put(`https://flavor-table-ejr2.onrender.com/api/recipes/update/${recipeId}`, updatedRecipe)
         .then(() => {
           alert("Recipe updated successfully!");
           window.location.href = "favorites.html";

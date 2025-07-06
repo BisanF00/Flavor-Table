@@ -5,7 +5,7 @@ const resultsContainer = document.getElementById("results");
 const favoritesContainer = document.getElementById("favoritesContainer");
 
 function loadFavorites (token) {
-axios.get("http://localhost:5321/api/recipes/all")
+axios.get("https://flavor-table-ejr2.onrender.com/api/recipes/all")
     .then(response => {
       const favorites = response.data;
 
@@ -53,7 +53,7 @@ function favoriteRecipes (recipe) {
   ingredients: JSON.stringify(ingredients),
   readyin: recipe.readyInMinutes || 0,
 };
- axios.post("http://localhost:5321/api/recipes/insert", simplified)
+ axios.post("https://flavor-table-ejr2.onrender.com/api/recipes/insert", simplified)
     .then(() => {
       alert("Recipe saved to favorites!");
       loadFavorites ();
@@ -66,7 +66,7 @@ function favoriteRecipes (recipe) {
   };
 
  function removeFavorite(id) {
-      axios.delete(`http://localhost:5321/api/recipes/${id}`)
+      axios.delete(`https://flavor-table-ejr2.onrender.com/api/recipes/${id}`)
       .then (() => {
         alert ("Recipe deleted");
         loadFavorites ();
