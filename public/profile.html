@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Roboto&display=swap" rel="stylesheet">
+</head>
+<body>
+  <nav class="navbar">
+    <h1 class="logo">User Profile</h1>
+      <div class="nav-links">
+        <a href="index.html">Back to Home</a>
+      </div>
+    </nav>
+
+    <div class="profile">
+      <h1>Welcome, <span id="username">loading...</span></h1>
+      <p>Email: <span id="email">loading...</span></p>
+      <button class="logoutBtn" onclick="logout()">Logout</button>
+    </div>
+  
+  <script>
+    const token = localStorage.getItem("token");
+
+    fetch("http://localhost:5321/user/profile", {
+      headers: {
+        Authorization:`Bearer ${token}`
+      }
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Unauthorized");
+        return res.json();
+      })
+      .then((data) => {
+        document.getElementById("username").textContent = data.username;
+        document.getElementById("email").textContent = data.email;
+      })
+      .catch(() => {
+        window.location.href = "/login.html";
+      });
+
+    function logout() {
+    localStorage.removeItem("token");
+    window.location.href = "./index.html";
+  }
+  </script>
+  <script src="./app.js"></script>
+</body>
+</html>

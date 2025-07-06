@@ -14,9 +14,11 @@ app.use (express.json());
 
 const homepage = require ("./routes/home");
 const recipepage = require ("./routes/recipes");
+const auth = require ("./routes/auth");
 
 app.use ("/" , homepage);
 app.use ("/information" , recipepage);
+app.use ("/user" , auth);
 
 app.get("/api", (req,res) => {
   const apiKey = req.query.key;

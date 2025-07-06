@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Roboto&display=swap" rel="stylesheet">
+</head>
+<body>
+  <nav class="navbar">
+    <h1 class="logo">Login</h1>
+      <div class="nav-links">
+        <a href="index.html">Back to Home</a>
+      </div>
+    </nav>
+
+  <form id="loginForm">
+    <h2 class="formUp">Login</h2>
+    <label>Username:</label><br />
+    <input type="text" id="username" required placeholder="Enter your username"/><br />
+    <label>Password:</label><br />
+    <input type="password" id="password" required placeholder="Enter your password"/><br /><br />
+    <button type="submit" class="loginBtn">Login</button>
+    <p class="formdown">Don't have an account ? <a href="register.html">Sign up</a></p>
+  </form>
+
+  <p id="error" style="color:red;"></p>
+
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      const res = await fetch("http://localhost:5321/user/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ username, password })
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        localStorage.setItem("token", data.token);
+        window.location.href = "/profile.html";
+      } else {
+        document.getElementById("error").textContent = data.error || "Login failed";
+      }
+    });
+  </script>
+</body>
+</html>
