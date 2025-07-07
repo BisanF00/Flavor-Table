@@ -49,7 +49,7 @@
 
       if (res.ok) {
         localStorage.setItem("token", data.token);
-        window.location.href = "/profile.html";
+        window.location.href = "./login.html";
       } else {
         document.getElementById("error").textContent = data.error || "sign in  failed";
       }
