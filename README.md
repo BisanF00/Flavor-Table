@@ -6,7 +6,7 @@
 
 ### This is a live link to my website :
 
-[Falvor Table Link](https://flavor-table-ejr2.onrender.com)
+[Flavor Table Link](https://flavor-table-ejr2.onrender.com)
 
 ## * How many hours did it take you to complete this assignment?
 
